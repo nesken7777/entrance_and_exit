@@ -81,7 +81,11 @@ fn exit(reader: &CStr) {
             let idm = u64::from_be_bytes(idm_bytes);
             if idm != *IDM_BEFORE.lock().expect("Mutexのエラーは考えてない") {
                 *IDM_BEFORE.lock().expect("Mutexのエラーは考えてない") = idm;
-                let url = format!("http://127.0.0.1/exit.php?idm={}", idm);
+                let url = format!(
+                    "http://{}/exit.php?idm={}",
+                    IP_ADDRESS.get().expect("さすがにここでエラーは出ない。ここは初期化されてることが保証されているはず"),
+                    idm
+                );
                 reqwest::blocking::get(url).map_or_else(
                     |_| {
                         eprintln!("ネットワークエラーあるよ");

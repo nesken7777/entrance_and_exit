@@ -338,8 +338,6 @@ fn entrance(reader: &CStr) {
                     },
                     |_| {},
                 )
-
-                //request
             }
             let file = OpenOptions::new()
                 .write(true)

@@ -1,2 +1,3 @@
 [workspace]
 members = ["entrance", "exit"]
+resolver = "2"

@@ -261,7 +261,13 @@ static IP_ADDRESS: OnceLock<Ipv4Addr> = OnceLock::new();
 
 fn main() {
     let ip_arg = args().collect::<Vec<_>>();
-    let ip_arg = ip_arg.get(1).expect("IPアドレス欲しいですよー");
+    let ip_arg = ip_arg.get(1).map_or_else(
+        || {
+            println!("IPアドレスもらってないのでデフォルトの127.0.0.1にしますよ！");
+            String::from("127.0.0.1")
+        },
+        |x| x.to_owned(),
+    );
     IP_ADDRESS
         .get_or_init(|| Ipv4Addr::from_str(&ip_arg).expect("有効なIPアドレスじゃないですよー"));
     let context = Context::establish(Scope::User).unwrap();
